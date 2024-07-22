@@ -11,10 +11,18 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { PostCreateNestedManyWithoutUsersInput } from "./PostCreateNestedManyWithoutUsersInput";
+import { Type } from "class-transformer";
+import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 
 @InputType()
 class UserCreateInput {
@@ -75,6 +83,30 @@ class UserCreateInput {
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => PostCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => PostCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  posts?: PostCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  comments?: CommentCreateNestedManyWithoutUsersInput;
 }
 
 export { UserCreateInput as UserCreateInput };

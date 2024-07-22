@@ -1,5 +1,7 @@
 import { StringFilter } from "../../util/StringFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { PostListRelationFilter } from "../post/PostListRelationFilter";
+import { CommentListRelationFilter } from "../comment/CommentListRelationFilter";
 
 export type UserWhereInput = {
   id?: StringFilter;
@@ -7,4 +9,6 @@ export type UserWhereInput = {
   lastName?: StringNullableFilter;
   username?: StringFilter;
   email?: StringNullableFilter;
+  posts?: PostListRelationFilter;
+  comments?: CommentListRelationFilter;
 };

@@ -1,4 +1,6 @@
 import { JsonValue } from "type-fest";
+import { Post } from "../post/Post";
+import { Comment } from "../comment/Comment";
 
 export type User = {
   id: string;
@@ -9,4 +11,6 @@ export type User = {
   username: string;
   email: string | null;
   roles: JsonValue;
+  posts?: Array<Post>;
+  comments?: Array<Comment>;
 };

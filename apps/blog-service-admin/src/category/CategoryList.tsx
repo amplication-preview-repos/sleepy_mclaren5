@@ -15,6 +15,7 @@ export const CategoryList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <DateField source="createdAt" label="Created At" />
         <DateField source="updatedAt" label="Updated At" />
+        <TextField label="name" source="name" />
       </Datagrid>
     </List>
   );

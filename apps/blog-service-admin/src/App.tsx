@@ -9,14 +9,14 @@ import { PostList } from "./post/PostList";
 import { PostCreate } from "./post/PostCreate";
 import { PostEdit } from "./post/PostEdit";
 import { PostShow } from "./post/PostShow";
-import { CommentList } from "./comment/CommentList";
-import { CommentCreate } from "./comment/CommentCreate";
-import { CommentEdit } from "./comment/CommentEdit";
-import { CommentShow } from "./comment/CommentShow";
 import { CategoryList } from "./category/CategoryList";
 import { CategoryCreate } from "./category/CategoryCreate";
 import { CategoryEdit } from "./category/CategoryEdit";
 import { CategoryShow } from "./category/CategoryShow";
+import { CommentList } from "./comment/CommentList";
+import { CommentCreate } from "./comment/CommentCreate";
+import { CommentEdit } from "./comment/CommentEdit";
+import { CommentShow } from "./comment/CommentShow";
 import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
@@ -55,18 +55,18 @@ const App = (): React.ReactElement => {
           show={PostShow}
         />
         <Resource
-          name="Comment"
-          list={CommentList}
-          edit={CommentEdit}
-          create={CommentCreate}
-          show={CommentShow}
-        />
-        <Resource
           name="Category"
           list={CategoryList}
           edit={CategoryEdit}
           create={CategoryCreate}
           show={CategoryShow}
+        />
+        <Resource
+          name="Comment"
+          list={CommentList}
+          edit={CommentEdit}
+          create={CommentCreate}
+          show={CommentShow}
         />
         <Resource
           name="User"

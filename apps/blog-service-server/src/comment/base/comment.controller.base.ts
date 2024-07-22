@@ -32,11 +32,38 @@ export class CommentControllerBase {
     @common.Body() data: CommentCreateInput
   ): Promise<Comment> {
     return await this.service.createComment({
-      data: data,
+      data: {
+        ...data,
+
+        user: data.user
+          ? {
+              connect: data.user,
+            }
+          : undefined,
+
+        post: data.post
+          ? {
+              connect: data.post,
+            }
+          : undefined,
+      },
       select: {
         id: true,
         createdAt: true,
         updatedAt: true,
+        text: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        post: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -52,6 +79,19 @@ export class CommentControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        text: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        post: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -68,6 +108,19 @@ export class CommentControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        text: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        post: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -88,11 +141,38 @@ export class CommentControllerBase {
     try {
       return await this.service.updateComment({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          user: data.user
+            ? {
+                connect: data.user,
+              }
+            : undefined,
+
+          post: data.post
+            ? {
+                connect: data.post,
+              }
+            : undefined,
+        },
         select: {
           id: true,
           createdAt: true,
           updatedAt: true,
+          text: true,
+
+          user: {
+            select: {
+              id: true,
+            },
+          },
+
+          post: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -118,6 +198,19 @@ export class CommentControllerBase {
           id: true,
           createdAt: true,
           updatedAt: true,
+          text: true,
+
+          user: {
+            select: {
+              id: true,
+            },
+          },
+
+          post: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {

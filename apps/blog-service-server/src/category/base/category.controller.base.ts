@@ -23,6 +23,8 @@ import { Post } from "../../post/base/Post";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryWhereUniqueInput } from "./CategoryWhereUniqueInput";
 import { CategoryUpdateInput } from "./CategoryUpdateInput";
+import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
+import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
 
 export class CategoryControllerBase {
   constructor(protected readonly service: CategoryService) {}
@@ -37,6 +39,7 @@ export class CategoryControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        name: true,
       },
     });
   }
@@ -52,6 +55,7 @@ export class CategoryControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        name: true,
       },
     });
   }
@@ -68,6 +72,7 @@ export class CategoryControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        name: true,
       },
     });
     if (result === null) {
@@ -93,6 +98,7 @@ export class CategoryControllerBase {
           id: true,
           createdAt: true,
           updatedAt: true,
+          name: true,
         },
       });
     } catch (error) {
@@ -118,6 +124,7 @@ export class CategoryControllerBase {
           id: true,
           createdAt: true,
           updatedAt: true,
+          name: true,
         },
       });
     } catch (error) {
@@ -128,5 +135,94 @@ export class CategoryControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/posts")
+  @ApiNestedQuery(PostFindManyArgs)
+  async findPosts(
+    @common.Req() request: Request,
+    @common.Param() params: CategoryWhereUniqueInput
+  ): Promise<Post[]> {
+    const query = plainToClass(PostFindManyArgs, request.query);
+    const results = await this.service.findPosts(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        content: true,
+        published: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/posts")
+  async connectPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: PostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      posts: {
+        connect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/posts")
+  async updatePosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: PostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      posts: {
+        set: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/posts")
+  async disconnectPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: PostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      posts: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }
